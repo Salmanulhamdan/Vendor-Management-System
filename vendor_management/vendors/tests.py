@@ -6,6 +6,8 @@ from .models import Vendor, PurchaseOrder
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import User
 
+from django.utils import timezone
+
 class VendorAPITest(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -62,13 +64,16 @@ class VendorAPITest(TestCase):
     def test_vendor_performance_view(self):
         vendor = Vendor.objects.create(name='Test Vendor', contact_details='Test Contact', address='Test Address', vendor_code='V001')
         vendor_code=vendor.vendor_code
-        print(vendor_code,"vendor")
 
         response = self.client.get(f'/api/vendors/{vendor_code}/performance/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_acknowledge_purchase_order_view(self):
         vendor = Vendor.objects.create(name='Test Vendor', contact_details='Test Contact', address='Test Address', vendor_code='V001')
-        purchase_order = PurchaseOrder.objects.create(vendor=vendor, po_number='PO001', order_date='2024-06-10', delivery_date='2024-06-20', status='completed')
-        response = self.client.post(f'/api/purchase_orders/{purchase_order.id}/acknowledge/', {'acknowledgment_date': '2024-06-15'})
+        purchase_order = PurchaseOrder.objects.create(vendor=vendor, po_number='PO001', delivery_date='2024-06-20', status='completed',items=[
+        {'item_name': 'Item 1', 'item_code': 'I123', 'price': 10.0},
+        {'item_name': 'Item 2', 'item_code': 'I124', 'price': 20.0}
+    ],quantity=5,issue_date=timezone.now(),)
+     
+        response = self.client.post(f'/api/purchase_orders/{purchase_order.id}/acknowledge', {'acknowledgment_date': '2024-06-15'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
