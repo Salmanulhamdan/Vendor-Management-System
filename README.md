@@ -84,3 +84,12 @@ GET /api/vendors/{vendor_code}/performance/: Retrieve a vendor's performance met
 POST /api/purchase_orders/{po_id}/acknowledge/**: Acknowledge a purchase order.
 ```
   - This endpoint is used by vendors to acknowledge the receipt of a purchase order, updating the acknowledgment date and triggering recalculation of the average response time metric for the vendor.
+
+
+## Testing
+
+
+    ```bash
+    python3 manage.py test
+    ```
+
