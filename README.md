@@ -27,7 +27,22 @@ This is a Django-based Vendor Management System that allows users
 
     ```bash
     pip install -r requirements.txt
+
     ```
+4.Set up the database:
+
+Ensure you have PostgreSQL installed and running. Update the DATABASES configuration in your Django project's settings file (settings.py) to match your PostgreSQL configuration:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vendor_management',
+        'USER': 'hamdan',
+        'PASSWORD': 'alin',
+        'HOST': 'localhost',  
+        'PORT': '5432',  
+    }
+}
 
 4. Apply database migrations:
 
