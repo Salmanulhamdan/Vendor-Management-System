@@ -21,13 +21,16 @@ class VendorAPITest(TestCase):
         response = self.client.post('/api/vendors/', {'name': 'Vendor 1', 'contact_details': 'Contact 1', 'address': 'Address 1', 'vendor_code': 'V001'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         vendor_id = response.data['id']
+     
 
         # Test retrieve vendor endpoint
         response = self.client.get(f'/api/vendors/{vendor_id}/')
+      
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Test update vendor endpoint
-        response = self.client.put(f'/api/vendors/{vendor_id}/', {'name': 'Updated Vendor 1', 'contact_details': 'Updated Contact 1', 'address': 'Updated Address 1'})
+     
+        response = self.client.put(f'/api/vendors/{vendor_id}/',{'name': 'Updated Vendor 1', 'contact_details': 'Updated Contact 1', 'address': 'Updated Address 1'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Test delete vendor endpoint
@@ -39,7 +42,8 @@ class VendorAPITest(TestCase):
         vendor = Vendor.objects.create(name='Test Vendor', contact_details='Test Contact', address='Test Address', vendor_code='V001')
 
         # Test create purchase order endpoint
-        response = self.client.post('/api/purchase_orders/', {'po_number': 'PO001', 'vendor': vendor.id, 'order_date': '2024-06-10', 'delivery_date': '2024-06-20', 'items': [{'name': 'Item 1', 'quantity': 1}], 'quantity': 1, 'status': 'completed'})
+        response = self.client.post('/api/purchase_orders/', {'po_number': 'PO001', 'vendor': vendor.id, 'order_date': '2024-06-10', 'delivery_date': '2024-06-20', 'items': '[{"name": "Item 1", "quantity": 1}]', 'quantity': 1, 'status': 'completed'})
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         po_id = response.data['id']
 
