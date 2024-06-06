@@ -9,8 +9,6 @@ from django.utils import timezone
 def update_metrics(sender, instance, **kwargs):
     vendor = instance.vendor
 
-    print("signaling")
-
     # Update On-Time Delivery Rate if PO is completed
     if instance.status == 'completed':
         total_completed_pos = PurchaseOrder.objects.filter(
